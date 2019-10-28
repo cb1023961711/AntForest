@@ -12,6 +12,8 @@ sleep(3000);
 click("蚂蚁森林");
 sleep(3000);
 //向下滑动，寻找“查看更多好友”控件
+GetEnergy();
+sleep(2000);
 scrollDown();
 toast("滑动");
 sleep(1000);
@@ -23,14 +25,13 @@ click("查看更多好友");
 sleep(3000);
 
 //帮忙收获和偷能量标识，同时开启
-var tohelp=images.read("/storage/emulated/0/脚本/帮助.jpg");
-var tosteal=images.read("/storage/emulated/0/脚本/偷能量.jpg");
+var tohelp=images.read("./帮助.jpg");
+var tosteal=images.read("./偷能量.jpg");
 
 var b=findImage(captureScreen(),tohelp,{
     region:[0,100,1080,2000],
     threshold:0.8
     });
-
 var c=findImage(captureScreen(),tosteal,{
     region:[0,100,1080,2000],
     threshold:0.8
@@ -43,6 +44,7 @@ while(true){
   toast(b);
   click(500,b.y+50);
   GetEnergy();
+  desc("返回").click();
   sleep(2000);
  }
  //有好友可以偷能量
@@ -50,6 +52,7 @@ while(true){
   toast(c);
   click(500,c.y+50);
   GetEnergy();
+  desc("返回").click();
   sleep(2000);
  }
  //没有放在if(b)的原因是：如果没找到b触发滑动，则无法获取新页面中是否有可帮助的好友
@@ -72,25 +75,28 @@ while(true){
     }
     toast("没找到底线");
     scrollDown();
-    sleep(2000);     
+    sleep(random(2000,2500));     
   }
 }
-
 /**
- * 收获能量，暴力点击
+ * 收获能量
  * 
  */
 function GetEnergy(){
- flag=packageName("com.eg.android.AlipayGphone").find().length;
-    for(var i = 400; i < 950&flag!=0; i = i + 178) {
-        for(var j = 150; j < 930&flag!=0; j = j + 163) {
-             click(j, i);
-             sleep(100);
-            flag=packageName("com.eg.android.AlipayGphone").find().length;
-             }
-        }
-    desc("返回").click();
-    sleep(1000);
+    toast("开始收能量");
+    sleep(random(2500,3000));
+ var energy=images.read("./能量.jpg");
+ var e=findImage(captureScreen(),energy,{
+  region:[0,0,1080,1300],
+  threshold:0.8});
+ while(e){
+  toast("发现可收获能量！");
+  click(e.x,e.y);
+  sleep(random(200,300));
+  e=findImage(captureScreen(),energy,{
+  region:[0,0,1080,1300],
+  threshold:0.8});
+ }
 }
 
 
