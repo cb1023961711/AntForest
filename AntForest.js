@@ -70,15 +70,12 @@ while(true){
         exit();
       }
     }
-    else{
-      toast("没找到底线");
-      scrollDown();
-      sleep(2000)
-    }
-        
+    toast("没找到底线");
+    scrollDown();
+    sleep(2000);     
   }
 }
-  
+
 /**
  * 收获能量，暴力点击
  * 
