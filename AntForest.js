@@ -1,3 +1,4 @@
+auto();
 //申请截图权限
 if(!requestScreenCapture()){
     exit();
@@ -29,11 +30,11 @@ var tohelp=images.read("./帮助.jpg");
 var tosteal=images.read("./偷能量.jpg");
 
 var b=findImage(captureScreen(),tohelp,{
-    region:[0,100,1080,2000],
+    region:[0,0,device.width,device.height],
     threshold:0.8
     });
 var c=findImage(captureScreen(),tosteal,{
-    region:[0,100,1080,2000],
+    region:[0,0,device.width,device.height],
     threshold:0.8
     });
 
@@ -57,18 +58,18 @@ while(true){
  }
  //没有放在if(b)的原因是：如果没找到b触发滑动，则无法获取新页面中是否有可帮助的好友
  b=findImage(captureScreen(),tohelp,{
- region:[0,0,1080,2340],
+ region:[0,0,device.width,device.height],
  threshold:0.8});
  //同理，没有放在if(c)
  c=findImage(captureScreen(),tosteal,{
- region:[0,0,1080,2340],
+ region:[0,0,device.width,device.height],
  threshold:0.8});
  //当前页面未发现目标
  if(!b&!c){
   //当前页面不是底线
     if(text("没有更多了").exists()){
       toast(text("没有更多了").findOne().bounds());
-      if(text("没有更多了").findOne().bounds().centerY()<device.height-20){
+      if(text("没有更多了").findOne().bounds().height()>10){
         toast("结束");
         exit();
       }
@@ -78,26 +79,21 @@ while(true){
     sleep(random(2000,2500));     
   }
 }
+
 /**
  * 收获能量
  * 
  */
 function GetEnergy(){
-    toast("开始收能量");
-    sleep(random(2500,3000));
- var energy=images.read("./能量.jpg");
- var e=findImage(captureScreen(),energy,{
-  region:[0,0,1080,1300],
-  threshold:0.8});
- while(e){
-  toast("发现可收获能量！");
-  click(e.x,e.y);
-  sleep(random(200,300));
-  e=findImage(captureScreen(),energy,{
-  region:[0,0,1080,1300],
-  threshold:0.8});
- }
+  toast("开始收能量");
+  sleep(random(2500,3000));
+  while(point=findColor(captureScreen(),"#FFCDFF5F")){
+    click(point);
+    sleep(random(200,300));
+  }
 }
+
+
 
 
 
